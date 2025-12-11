@@ -51,17 +51,21 @@ router.post('/', verifyToken, async (req, res) => {
   try {
     const { question, answer, topic, companyId } = req.body;
     
+    console.log('📝 Creating question:', { question, topic, hasCompanyId: !!companyId });
+    
     const newQuestion = new Question({
       question,
       answer,
       topic,
-      companyId,
+      companyId: companyId || null,  // Explicitly set to null if not provided
       userId: req.userId  // From verified token
     });
     
     await newQuestion.save();
+    console.log('✅ Question saved successfully:', newQuestion._id);
     res.status(201).json({ message: 'Question added successfully', question: newQuestion });
   } catch (error) {
+    console.error('❌ Error saving question:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });

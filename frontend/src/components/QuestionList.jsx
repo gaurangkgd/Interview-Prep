@@ -21,6 +21,14 @@ function QuestionList() {
   const [topics, setTopics] = useState([]);
   const [companies, setCompanies] = useState([]);
 
+  // Set body background color
+  React.useEffect(() => {
+    document.body.style.backgroundColor = '#FFF5F7';
+    return () => {
+      document.body.style.backgroundColor = '#0f172a';
+    };
+  }, []);
+
   useEffect(() => {
     fetchQuestions();
   }, []);

@@ -33,14 +33,15 @@ router.get('/:id', verifyToken, async (req, res) => {
 // POST /api/companies - Create new company
 router.post('/', verifyToken, async (req, res) => {
   try {
-    const { companyName, role, status, appliedDate } = req.body;
+    const { companyName, role, status, appliedDate, interviewDate } = req.body;
     
     const company = new Company({
       companyName,
       role,
       status,
       appliedDate,
-      userId: req.userId  // From verified token
+      interviewDate,  // Add this
+      userId: req.userId
     });
     
     await company.save();
@@ -50,14 +51,15 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
+
 // PUT /api/companies/:id - Update company
 router.put('/:id', verifyToken, async (req, res) => {
   try {
-    const { companyName, role, status, appliedDate } = req.body;
+    const { companyName, role, status, appliedDate, interviewDate } = req.body;
     
     const company = await Company.findOneAndUpdate(
       { _id: req.params.id, userId: req.userId },
-      { companyName, role, status, appliedDate },
+      { companyName, role, status, appliedDate, interviewDate },  // Add interviewDate
       { new: true, runValidators: true }
     );
     
@@ -85,5 +87,32 @@ router.delete('/:id', verifyToken, async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
+// Add this route for testing
+router.post('/test-email', verifyToken, async (req, res) => {
+  const { runReminderCheckNow } = require('../utils/cronJobs');
+  
+  try {
+    await runReminderCheckNow();
+    res.status(200).json({ message: 'Test emails sent!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error sending emails', error: error.message });
+  }
+});
+
+// Add at the end, before module.exports
+router.post('/test-email', verifyToken, async (req, res) => {
+  const { runReminderCheckNow } = require('../utils/cronJobs');
+  
+  try {
+    await runReminderCheckNow();
+    res.status(200).json({ message: 'Test emails sent! Check your inbox.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error sending emails', error: error.message });
+  }
+});
+
+module.exports = router;
+
 
 module.exports = router;

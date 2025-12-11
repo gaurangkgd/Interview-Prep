@@ -19,7 +19,7 @@ const questionSchema = new mongoose.Schema({
     companyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
-        required: true,
+        required: false, // Optional - for AI-generated questions
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

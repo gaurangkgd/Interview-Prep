@@ -1,1 +1,65 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap');
+
+/* Global dark background + font */
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  /* Global font: Cinzel */
+  font-family: "Cinzel", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background-color: #0f172a; /* slate-900 */
+  color: #e5e7eb; /* gray-200 default text */
+}
+
+/* Text glow/shine effects */
+.text-glow {
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5),
+               0 0 40px rgba(139, 92, 246, 0.3),
+               0 0 60px rgba(139, 92, 246, 0.2);
+}
+
+.text-shine {
+  background: linear-gradient(90deg, #fff 0%, #a78bfa 50%, #fff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Black placeholder text everywhere */
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+/* For select elements default text */
+select {
+  color: #000000 !important;
+}
+
+/* When select has a value, keep it black */
+select option {
+  color: #000000 !important;
+}
+
+/* Ensure root doesn't add white gutters */
+#root {
+	margin: 0;
+	padding: 0;
+	max-width: none;
+	text-align: initial;
+}

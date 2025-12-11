@@ -20,6 +20,14 @@ function PrepList() {
     completed: false,
   });
 
+  // Set body background color
+  React.useEffect(() => {
+    document.body.style.backgroundColor = '#FFF5F7';
+    return () => {
+      document.body.style.backgroundColor = '#0f172a';
+    };
+  }, []);
+
   useEffect(() => {
     fetchPrepItems();
   }, []);

@@ -6,6 +6,7 @@ function CompanyForm({ company, onSubmit, onClose }) {
     role: '',
     status: 'Applied',
     appliedDate: new Date().toISOString().split('T')[0],
+    interviewDate: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,7 @@ function CompanyForm({ company, onSubmit, onClose }) {
         role: company.role,
         status: company.status,
         appliedDate: new Date(company.appliedDate).toISOString().split('T')[0],
+        interviewDate: company.interviewDate ? new Date(company.interviewDate).toISOString().split('T')[0] : '',
       });
     }
   }, [company]);
@@ -93,7 +95,7 @@ function CompanyForm({ company, onSubmit, onClose }) {
               value={formData.companyName}
               onChange={handleChange}
               required
-              placeholder="e.g., Google, Microsoft"
+              placeholder="e.g., Google"
               className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
             />
           </div>
@@ -150,6 +152,24 @@ function CompanyForm({ company, onSubmit, onClose }) {
               required
               className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
             />
+          </div>
+
+          {/* Interview Date */}
+          <div>
+            <label htmlFor="interviewDate" className="block text-sm font-medium text-gray-700 mb-2">
+              Interview Date (Optional)
+            </label>
+            <input
+              type="date"
+              id="interviewDate"
+              name="interviewDate"
+              value={formData.interviewDate}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Set a date to receive email reminders
+            </p>
           </div>
 
           {/* Buttons */}
