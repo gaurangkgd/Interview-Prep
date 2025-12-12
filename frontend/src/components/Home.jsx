@@ -20,18 +20,18 @@ function Home() {
     },
     {
       icon: "📚",
-      title: "Question Bank",
-      description: "Build your personal library of interview questions with answers organized by topic."
+      title: "Smart Resources",
+      description: "Curate learning materials, get AI-powered recommendations, and track your study progress."
     },
     {
       icon: "🤖",
       title: "AI Question Generator",
-      description: "Generate personalized interview questions using AI based on role, topic, and difficulty."
+      description: "Generate personalized questions with instant save to Question Bank and smart resource suggestions."
     },
     {
-      icon: "📧",
-      title: "Email Reminders",
-      description: "Never miss an interview with automated email reminders sent before your interview date."
+      icon: "🗓️",
+      title: "AI Study Plan",
+      description: "Auto-generate complete study plans with curated resources and prioritized tasks in one click."
     }
   ];
 
@@ -87,7 +87,7 @@ function Home() {
             className="text-5xl font-bold text-white mb-6 justify-center text-glow"
           />
           <BlurText
-            text="Track companies, organize interview questions, generate AI-powered practice questions, and get email reminders for your upcoming interviews - all in one place."
+            text="Track companies, build question banks, generate AI study plans with curated resources, and get smart recommendations - your complete interview preparation toolkit."
             delay={50}
             animateBy="words"
             direction="top"
@@ -123,8 +123,35 @@ function Home() {
             />
           </div>
 
+        {/* AI-Powered Features Section */}
+        <div className="mt-20 bg-gradient-to-br from-purple-900/80 to-indigo-900/80 backdrop-blur-sm rounded-2xl shadow-xl p-12">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-white mb-4 text-glow">AI-Powered Study Assistant</h3>
+            <p className="text-lg text-gray-200">
+              Let AI help you prepare smarter with intelligent features
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+              <div className="text-4xl mb-3">💾</div>
+              <h4 className="text-lg font-bold text-white mb-2">Quick Save</h4>
+              <p className="text-sm text-gray-200">Save AI-generated questions directly to your Question Bank with one click</p>
+            </div>
+            <div className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+              <div className="text-4xl mb-3">📚</div>
+              <h4 className="text-lg font-bold text-white mb-2">Smart Recommendations</h4>
+              <p className="text-sm text-gray-200">Get relevant learning resources automatically based on your topic</p>
+            </div>
+            <div className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+              <div className="text-4xl mb-3">🗓️</div>
+              <h4 className="text-lg font-bold text-white mb-2">Study Plan Generator</h4>
+              <p className="text-sm text-gray-200">Generate complete study plans with curated resources and prioritized tasks</p>
+            </div>
+          </div>
+        </div>
+
         {/* Prep Items Section */}
-        <div className="mt-20 bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl p-12">
+        <div className="mt-12 bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl p-12">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-white mb-4 text-glow">Organize Your Preparation</h3>
             <p className="text-lg text-gray-300">
