@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import BlurText from './BlurText';
 import Aurora from './Aurora';
@@ -36,38 +37,43 @@ function Home() {
   ];
 
   const transformStyles = [
-    "rotate(3deg) translate(-120px)",
-    "rotate(-2deg) translate(-40px)",
-    "rotate(2deg) translate(40px)",
-    "rotate(-3deg) translate(120px)"
+    "rotate(3deg) translate(-220px)",
+    "rotate(-2deg) translate(-70px)",
+    "rotate(2deg) translate(70px)",
+    "rotate(-3deg) translate(220px)"
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen w-full relative overflow-x-hidden">
       {/* Animated Background (Aurora) */}
-      <div className="absolute inset-0 w-full h-full">
-        <Aurora speed={24} opacity={0.6} />
+      <div className="absolute inset-0 w-full h-full -z-10">
+        <Aurora
+          colorStops={["#3A29FF", "#FF94B4", "#FF3232"]}
+          blend={0.6}
+          amplitude={2.0}
+          speed={7.0}
+        />
       </div>
       
       {/* Content Overlay */}
-      <div className="relative z-10">
+      <div className="relative z-10 w-full">
         {/* Navigation */}
-        <nav className="bg-gray-900/80 backdrop-blur-sm shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <span className="text-3xl">🎯</span>
-            <h1 className="text-2xl font-bold text-white tracking-tight">Interview Prep Tracker</h1>
+        <nav className="bg-gray-900/80 backdrop-blur-sm shadow-sm w-full">
+          <div className="w-full px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <span className="text-4xl">🎯</span>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">Interview Prep Tracker</h1>
           </div>
           <div className="flex gap-3">
             <button
               onClick={() => navigate('/login')}
-              className="px-6 py-2 text-purple-600 font-semibold hover:text-purple-700 transition-colors"
+              className="px-7 py-3 text-purple-600 font-semibold hover:text-purple-700 transition-colors"
             >
               Login
             </button>
             <button
               onClick={() => navigate('/register')}
-              className="px-6 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+              className="px-8 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors"
             >
               Get Started
             </button>
@@ -76,33 +82,33 @@ function Home() {
         </nav>
 
         {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-16">
+        <section className="w-full py-16">
+          <div className="text-center mb-4 px-4 sm:px-6 lg:px-8 min-h-[85vh] flex flex-col justify-start pt-16">
           <BlurText
             text="Ace Your Next Interview with AI-Powered Preparation"
             delay={150}
             animateBy="words"
             direction="top"
             onAnimationComplete={handleAnimationComplete}
-            className="text-5xl font-bold text-white mb-6 justify-center text-glow"
+            className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-8 justify-center text-glow leading-tight"
           />
           <BlurText
             text="Track companies, build question banks, generate AI study plans with curated resources, and get smart recommendations - your complete interview preparation toolkit."
             delay={50}
             animateBy="words"
             direction="top"
-            className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto justify-center font-light"
+            className="text-2xl md:text-3xl text-gray-200 mb-6 max-w-5xl mx-auto justify-center font-light"
           />
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => navigate('/register')}
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:scale-105 shadow-lg"
+              className="px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold text-xl hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:scale-105 shadow-lg"
             >
               Start Preparing Now
             </button>
             <button
               onClick={() => navigate('/login')}
-              className="px-8 py-4 bg-white text-purple-600 border-2 border-purple-600 rounded-lg font-semibold text-lg hover:bg-purple-50 transition-all"
+              className="px-10 py-5 bg-white text-purple-600 border-2 border-purple-600 rounded-lg font-semibold text-xl hover:bg-purple-50 transition-all"
             >
               Sign In
             </button>
@@ -110,11 +116,12 @@ function Home() {
         </div>
 
           {/* Bounce Cards Animation */}
-          <div className="flex justify-center mt-20 mb-12">
+          <div className="flex justify-center -mt-6 mb-8">
             <BounceCards
+              className="items-start"
               cards={features}
-              containerWidth={800}
-              containerHeight={350}
+              containerWidth={1600}
+              containerHeight={650}
               animationDelay={1}
               animationStagger={0.1}
               easeType="elastic.out(1, 0.5)"
@@ -124,7 +131,13 @@ function Home() {
           </div>
 
         {/* AI-Powered Features Section */}
-        <div className="mt-20 bg-gradient-to-br from-purple-900/80 to-indigo-900/80 backdrop-blur-sm rounded-2xl shadow-xl p-12">
+        <motion.div
+          className="mt-20 bg-gradient-to-br from-purple-900/80 to-indigo-900/80 backdrop-blur-sm shadow-xl p-12 mx-4 sm:mx-6 lg:mx-8 rounded-2xl"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-white mb-4 text-glow">AI-Powered Study Assistant</h3>
             <p className="text-lg text-gray-200">
@@ -132,26 +145,44 @@ function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            <motion.div
+              className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20"
+              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
               <div className="text-4xl mb-3">💾</div>
               <h4 className="text-lg font-bold text-white mb-2">Quick Save</h4>
               <p className="text-sm text-gray-200">Save AI-generated questions directly to your Question Bank with one click</p>
-            </div>
-            <div className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            </motion.div>
+            <motion.div
+              className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20"
+              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
               <div className="text-4xl mb-3">📚</div>
               <h4 className="text-lg font-bold text-white mb-2">Smart Recommendations</h4>
               <p className="text-sm text-gray-200">Get relevant learning resources automatically based on your topic</p>
-            </div>
-            <div className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            </motion.div>
+            <motion.div
+              className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20"
+              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
               <div className="text-4xl mb-3">🗓️</div>
               <h4 className="text-lg font-bold text-white mb-2">Study Plan Generator</h4>
               <p className="text-sm text-gray-200">Generate complete study plans with curated resources and prioritized tasks</p>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Prep Items Section */}
-        <div className="mt-12 bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl p-12">
+        <motion.div
+          className="mt-12 bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl p-12 mx-4 sm:mx-6 lg:mx-8"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-white mb-4 text-glow">Organize Your Preparation</h3>
             <p className="text-lg text-gray-300">
@@ -159,26 +190,32 @@ function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-6 bg-red-50 rounded-xl">
+            <motion.div className="text-center p-6 bg-red-50 rounded-xl" whileHover={{ y: -6, scale: 1.02 }}>
               <div className="text-3xl mb-3">🔴</div>
               <h4 className="text-lg font-bold text-red-800 mb-2">High Priority</h4>
               <p className="text-sm text-red-600">Critical tasks that need immediate attention</p>
-            </div>
-            <div className="text-center p-6 bg-yellow-50 rounded-xl">
+            </motion.div>
+            <motion.div className="text-center p-6 bg-yellow-50 rounded-xl" whileHover={{ y: -6, scale: 1.02 }}>
               <div className="text-3xl mb-3">🟡</div>
               <h4 className="text-lg font-bold text-yellow-800 mb-2">Medium Priority</h4>
               <p className="text-sm text-yellow-600">Important but not urgent preparation items</p>
-            </div>
-            <div className="text-center p-6 bg-green-50 rounded-xl">
+            </motion.div>
+            <motion.div className="text-center p-6 bg-green-50 rounded-xl" whileHover={{ y: -6, scale: 1.02 }}>
               <div className="text-3xl mb-3">🟢</div>
               <h4 className="text-lg font-bold text-green-800 mb-2">Low Priority</h4>
               <p className="text-sm text-green-600">Nice-to-have items for extra preparation</p>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* CTA Section */}
-        <div className="mt-20 text-center bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl shadow-2xl p-12 text-white">
+        <motion.div
+          className="mt-20 text-center bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl shadow-2xl p-12 text-white mx-4 sm:mx-6 lg:mx-8"
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <h3 className="text-4xl font-bold mb-4 text-shine">Ready to Land Your Dream Job?</h3>
           <p className="text-xl mb-8 opacity-90">
             Join thousands of successful candidates who prepared with our platform
@@ -189,12 +226,12 @@ function Home() {
           >
             Create Free Account
           </button>
-        </div>
+        </motion.div>
         </section>
 
         {/* Footer */}
-        <footer className="bg-gray-900/80 backdrop-blur-sm text-white py-8 mt-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <footer className="bg-gray-900/80 backdrop-blur-sm text-white py-8 mt-20 w-full">
+          <div className="w-full px-4 sm:px-6 lg:px-8 text-center">
             <p className="text-gray-400">
               © 2025 Interview Prep Tracker. All rights reserved.
             </p>
