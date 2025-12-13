@@ -1,8 +1,5 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* Global dark background + font */
 html, body, #root {
@@ -61,8 +58,8 @@ select option {
 
 /* Ensure root doesn't add white gutters */
 #root {
-	margin: 0;
-	padding: 0;
-	max-width: none;
-	text-align: initial;
+        margin: 0;
+        padding: 0;
+        max-width: none;
+        text-align: initial;
 }
