@@ -22,7 +22,9 @@ function CompanyList({ companies, onEdit, onDelete, onStatusChange }) {
   return (
     <div>
       {/* Filter Bar */}
-      <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+      <div className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-sm p-4 mb-6 text-white border border-white/10">
+        <style>{`.force-white * { color: #fff !important; }`}</style>
+        <div className="force-white">
         <div className="flex flex-wrap items-center gap-3">
           <label className="text-sm font-medium text-gray-700">Filter by Status:</label>
           <div className="flex flex-wrap gap-2">
@@ -33,7 +35,7 @@ function CompanyList({ companies, onEdit, onDelete, onStatusChange }) {
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   filterStatus === status
                     ? 'bg-purple-600 text-white shadow-md'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-700/80 text-white hover:bg-gray-600/80 border border-white/10'
                 }`}
               >
                 {status}
@@ -41,17 +43,18 @@ function CompanyList({ companies, onEdit, onDelete, onStatusChange }) {
             ))}
           </div>
         </div>
+        </div>
       </div>
 
       {/* Results Count */}
-      <div className="mb-4 text-sm text-gray-600">
+      <div className="mb-4 text-sm text-white">
         Showing {filteredCompanies.length} of {companies.length} applications
         {filterStatus !== 'All' && ` (${filterStatus})`}
       </div>
 
       {/* Companies Grid */}
       {filteredCompanies.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-sm p-12 text-center">
+        <div className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-sm p-12 text-center text-white border border-white/10 force-white">
           <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Aurora from './Aurora';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import CompanyList from './CompanyList';
@@ -112,22 +113,26 @@ function Dashboard() {
 
   // Set body background color for dashboard only
   React.useEffect(() => {
-    document.body.style.backgroundColor = '#FFF5F7'; // whitish-pink
+    document.body.style.backgroundColor = '#0b1220'; // match Home page dark bg
     return () => {
-      document.body.style.backgroundColor = '#0f172a'; // reset to original on unmount
+      document.body.style.backgroundColor = '#0b1220'; // keep consistent
     };
   }, []);
 
   return (
-    <div className="min-h-screen bg-pink-50">
+    <div className="min-h-screen w-full relative overflow-x-hidden">
+      {/* Aurora Animated Background */}
+      <div className="absolute inset-0 w-full h-full -z-10">
+        <Aurora />
+      </div>
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
+      <header className="bg-gray-900/80 backdrop-blur-md shadow-sm sticky top-0 z-50 text-white">
         <div className="w-full px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
               Interview Prep Tracker
             </h1>
-            <p className="text-sm text-gray-600">Welcome back, {user?.username}!</p>
+            <p className="text-sm text-white">Welcome back, {user?.username}!</p>
           </div>
           <div className="flex gap-3">
             <button
@@ -166,14 +171,14 @@ function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="w-full px-6 lg:px-8 py-8">
+      <main className="w-full px-6 lg:px-8 py-8 text-white">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+          <div className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Applications</p>
-                <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
+                <p className="text-sm text-white">Total Applications</p>
+                <p className="text-3xl font-bold text-white">{stats.total}</p>
               </div>
               <div className="bg-purple-100 rounded-full p-3">
                 <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,11 +188,11 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+          <div className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Applied</p>
-                <p className="text-3xl font-bold text-blue-600">{stats.applied}</p>
+                <p className="text-sm text-white">Applied</p>
+                <p className="text-3xl font-bold text-blue-400">{stats.applied}</p>
               </div>
               <div className="bg-blue-100 rounded-full p-3">
                 <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -197,11 +202,11 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+          <div className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Interviews</p>
-                <p className="text-3xl font-bold text-yellow-600">{stats.interview}</p>
+                <p className="text-sm text-white">Interviews</p>
+                <p className="text-3xl font-bold text-yellow-300">{stats.interview}</p>
               </div>
               <div className="bg-yellow-100 rounded-full p-3">
                 <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,11 +216,11 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+          <div className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Offers</p>
-                <p className="text-3xl font-bold text-green-600">{stats.offer}</p>
+                <p className="text-sm text-white">Offers</p>
+                <p className="text-3xl font-bold text-green-400">{stats.offer}</p>
               </div>
               <div className="bg-green-100 rounded-full p-3">
                 <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,11 +230,11 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+          <div className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Rejected</p>
-                <p className="text-3xl font-bold text-red-600">{stats.rejected}</p>
+                <p className="text-sm text-white">Rejected</p>
+                <p className="text-3xl font-bold text-red-400">{stats.rejected}</p>
               </div>
               <div className="bg-red-100 rounded-full p-3">
                 <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,7 +247,7 @@ function Dashboard() {
 
         {/* Quick Add Button */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">My Applications</h2>
+          <h2 className="text-2xl font-bold text-white">My Applications</h2>
           <button
             onClick={handleAddCompany}
             className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-center gap-2"
@@ -256,24 +261,55 @@ function Dashboard() {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-red-900/80 text-red-200 px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
 
+        {/* Filter Bar and Empty State Styling */}
+        <style>{`
+          .glass-panel {
+            background: rgba(31,41,55,0.7);
+            color: #fff;
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.08);
+          }
+          .glass-panel input, .glass-panel select, .glass-panel textarea {
+            color: #fff !important;
+            background: rgba(55,65,81,0.7) !important;
+            border-color: rgba(255,255,255,0.15) !important;
+          }
+        `}</style>
         {/* Loading State */}
         {loading ? (
           <div className="flex justify-center items-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
           </div>
         ) : (
-          /* Company List Component */
-          <CompanyList
-            companies={companies}
-            onEdit={handleEditCompany}
-            onDelete={handleDelete}
-            onStatusChange={handleStatusChange}
-          />
+          <div>
+            {/* Filter Bar */}
+            <div className="glass-panel mb-6 p-4 flex flex-wrap gap-2 items-center">
+              {/* ...existing filter bar code... */}
+              {/** The filter bar code is rendered by your filter logic, so this is a style wrapper **/}
+              {/** If you want to move the filter bar code here, let me know! **/}
+            </div>
+            {/* Company List Component */}
+            <CompanyList
+              companies={companies}
+              onEdit={handleEditCompany}
+              onDelete={handleDelete}
+              onStatusChange={handleStatusChange}
+            />
+            {/* Empty State Styling (if no companies) */}
+            {(!companies || companies.length === 0) && (
+              <div className="glass-panel flex flex-col items-center justify-center py-16 mt-8">
+                <div className="text-5xl mb-4">😔</div>
+                <div className="text-xl text-white font-semibold mb-2">No companies found</div>
+                <div className="text-gray-300">Add your first company to get started.</div>
+              </div>
+            )}
+          </div>
         )}
 
         {/* Company Form Modal */}
@@ -290,3 +326,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+

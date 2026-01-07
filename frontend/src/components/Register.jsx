@@ -37,11 +37,11 @@ function Register() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-indigo-700 p-4">
-      <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">
+      <div className="bg-white rounded-lg shadow-2xl p-10 w-full max-w-lg">
+        <h2 className="text-4xl font-bold text-center text-gray-800 mb-3">
           Create Account
         </h2>
-        <p className="text-center text-gray-600 mb-6">
+        <p className="text-center text-gray-600 mb-8 text-lg">
           Start tracking your interview prep
         </p>
         
@@ -51,9 +51,9 @@ function Register() {
           </div>
         )}
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="username" className="block text-base font-medium text-gray-700 mb-2">
               Username
             </label>
             <input
@@ -64,12 +64,12 @@ function Register() {
               onChange={handleChange}
               required
               placeholder="Enter your username"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-5 py-4 text-base border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors text-black"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-base font-medium text-gray-700 mb-2">
               Email
             </label>
             <input
@@ -80,12 +80,12 @@ function Register() {
               onChange={handleChange}
               required
               placeholder="Enter your email"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-5 py-4 text-base border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors text-black"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="password" className="block text-base font-medium text-gray-700 mb-2">
               Password
             </label>
             <input
@@ -97,20 +97,20 @@ function Register() {
               required
               placeholder="Enter your password"
               minLength="6"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-5 py-4 text-base border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors text-black"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 text-lg rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {loading ? 'Creating Account...' : 'Register'}
           </button>
         </form>
 
-        <p className="text-center text-gray-600 mt-6 text-sm">
+        <p className="text-center text-gray-600 mt-8 text-base">
           Already have an account?{' '}
           <Link to="/login" className="text-purple-600 font-semibold hover:underline">
             Login here

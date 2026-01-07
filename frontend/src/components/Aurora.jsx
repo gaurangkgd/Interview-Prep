@@ -11,7 +11,11 @@ export default function Aurora({
     const el = ref.current;
     if (!el) return;
     el.style.setProperty('--aurora-opacity', String(opacity));
-    el.style.setProperty('--aurora-speed', `${speed}s`);
+    // Faster animation (6s instead of 10s)
+    el.style.setProperty('--aurora-speed', '6s');
+    el.style.setProperty('--aurora-blur', '120px');
+    el.style.setProperty('--aurora-contrast', '1.25');
+    el.style.setProperty('--aurora-saturate', '1.5');
   }, [speed, opacity]);
 
   return (
@@ -27,37 +31,37 @@ export default function Aurora({
         .aurora-layer {
           position: absolute;
           inset: 0;
-          filter: blur(60px) contrast(1.05) saturate(1.2);
-          opacity: var(--aurora-opacity, 0.6);
+          filter: blur(var(--aurora-blur,120px)) contrast(var(--aurora-contrast,1.25)) saturate(var(--aurora-saturate,1.5));
+          opacity: var(--aurora-opacity, 0.8);
           background:
-            radial-gradient(1200px 600px at 10% 10%, rgba(255, 0, 128, 0.35), transparent 60%),
-            radial-gradient(800px 400px at 80% 20%, rgba(0, 200, 255, 0.35), transparent 60%),
-            radial-gradient(1000px 500px at 20% 80%, rgba(160, 255, 120, 0.30), transparent 60%),
-            radial-gradient(900px 450px at 85% 75%, rgba(255, 200, 80, 0.25), transparent 60%);
-          animation: aurora-move var(--aurora-speed, 20s) linear infinite alternate;
+            radial-gradient(1600px 900px at 10% 10%, rgba(58,41,255,0.45), transparent 70%),
+            radial-gradient(1200px 700px at 80% 20%, rgba(255,148,180,0.40), transparent 70%),
+            radial-gradient(1400px 800px at 20% 80%, rgba(255,50,50,0.35), transparent 70%),
+            radial-gradient(1200px 600px at 85% 75%, rgba(0,255,255,0.25), transparent 70%);
+          animation: aurora-move var(--aurora-speed, 10s) linear infinite alternate;
         }
 
         @keyframes aurora-move {
           0% {
             background-position:
-              10% 10%,
-              80% 20%,
-              20% 80%,
-              85% 75%;
+              0% 0%,
+              100% 0%,
+              0% 100%,
+              100% 100%;
           }
           50% {
             background-position:
-              20% 25%,
-              70% 35%,
-              30% 65%,
-              75% 60%;
+              50% 40%,
+              60% 80%,
+              80% 60%,
+              40% 90%;
           }
           100% {
             background-position:
-              15% 20%,
-              75% 15%,
-              25% 85%,
-              90% 70%;
+              20% 80%,
+              80% 20%,
+              60% 90%,
+              90% 60%;
           }
         }
       `}</style>

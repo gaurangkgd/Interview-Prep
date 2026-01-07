@@ -90,25 +90,25 @@ function Home() {
             animateBy="words"
             direction="top"
             onAnimationComplete={handleAnimationComplete}
-            className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-8 justify-center text-glow leading-tight"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 justify-center text-glow leading-tight"
           />
           <BlurText
             text="Track companies, build question banks, generate AI study plans with curated resources, and get smart recommendations - your complete interview preparation toolkit."
             delay={50}
             animateBy="words"
             direction="top"
-            className="text-2xl md:text-3xl text-gray-200 mb-6 max-w-5xl mx-auto justify-center font-light"
+            className="text-xl md:text-2xl text-gray-200 mb-6 max-w-5xl mx-auto justify-center font-light"
           />
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => navigate('/register')}
-              className="px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold text-xl hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:scale-105 shadow-lg"
+              className="px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:scale-105 shadow-lg"
             >
               Start Preparing Now
             </button>
             <button
               onClick={() => navigate('/login')}
-              className="px-10 py-5 bg-white text-purple-600 border-2 border-purple-600 rounded-lg font-semibold text-xl hover:bg-purple-50 transition-all"
+              className="px-10 py-5 bg-white text-purple-600 border-2 border-purple-600 rounded-lg font-semibold text-lg hover:bg-purple-50 transition-all"
             >
               Sign In
             </button>

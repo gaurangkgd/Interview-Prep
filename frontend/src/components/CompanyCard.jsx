@@ -30,17 +30,22 @@ function CompanyCard({ company, onEdit, onDelete, onStatusChange }) {
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border-l-4 border-purple-500">
+    <div className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 p-6 border-l-4 border-purple-500 text-white border border-white/10">
+      <style>{`
+        .force-white * { color: #fff !important; }
+        .force-white select, .force-white option { color: #222 !important; background: #fff !important; }
+      `}</style>
+      <div className="force-white">
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
-          <h3 className="text-xl font-bold text-gray-900 mb-1">{company.companyName}</h3>
-          <p className="text-gray-600">{company.role}</p>
+          <h3 className="text-xl font-bold text-white mb-1">{company.companyName}</h3>
+          <p className="text-gray-200">{company.role}</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => onEdit(company)}
-            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            className="p-2 text-blue-400 hover:bg-blue-900/30 rounded-lg transition-colors"
             title="Edit"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,7 +54,7 @@ function CompanyCard({ company, onEdit, onDelete, onStatusChange }) {
           </button>
           <button
             onClick={() => onDelete(company._id)}
-            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            className="p-2 text-red-400 hover:bg-red-900/30 rounded-lg transition-colors"
             title="Delete"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +66,7 @@ function CompanyCard({ company, onEdit, onDelete, onStatusChange }) {
 
       {/* Status Dropdown */}
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+        <label className="block text-sm font-medium text-white mb-2">Status</label>
         <select
           value={company.status}
           onChange={(e) => onStatusChange(company._id, e.target.value)}
@@ -76,11 +81,12 @@ function CompanyCard({ company, onEdit, onDelete, onStatusChange }) {
       </div>
 
       {/* Applied Date */}
-      <div className="flex items-center text-sm text-gray-600">
+      <div className="flex items-center text-sm">
         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
         Applied on {formatDate(company.appliedDate)}
+      </div>
       </div>
     </div>
   );
