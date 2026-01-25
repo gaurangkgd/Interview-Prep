@@ -63,7 +63,7 @@ function Login() {
               onChange={handleChange}
               required
               placeholder="Enter your email"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
             />
           </div>
 
@@ -79,7 +79,7 @@ function Login() {
               onChange={handleChange}
               required
               placeholder="Enter your password"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
             />
           </div>
 

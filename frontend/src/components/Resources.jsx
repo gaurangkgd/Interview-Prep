@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import api from '../utils/api';
+import Aurora from './Aurora';
 
 function Resources() {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [resources, setResources] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -21,13 +24,14 @@ function Resources() {
     notes: ''
   });
 
-  // Set body background color
+  // Set body background color based on theme
   React.useEffect(() => {
-    document.body.style.backgroundColor = '#FFF5F7';
-    return () => {
-      document.body.style.backgroundColor = '#0f172a';
-    };
-  }, []);
+    if (theme === 'dark') {
+      document.body.style.backgroundColor = '#0b1220';
+    } else {
+      document.body.style.backgroundColor = '#f9fafb';
+    }
+  }, [theme]);
 
   const types = ['Article', 'Video', 'Course', 'Book', 'Tutorial', 'Documentation'];
   const topics = ['React', 'Node.js', 'JavaScript', 'TypeScript', 'Python', 'Java', 'Algorithms', 'Data Structures', 'System Design', 'Behavioral', 'SQL', 'MongoDB', 'AWS', 'Docker', 'REST APIs'];
@@ -126,18 +130,34 @@ function Resources() {
   });
 
   return (
-    <div className="min-h-screen bg-pink-50">
+    <div className={`min-h-screen relative ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      {/* Aurora Animated Background - Only in dark mode */}
+      {theme === 'dark' && (
+        <div className="absolute inset-0 w-full h-full -z-10">
+          <Aurora />
+        </div>
+      )}
+      
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
+      <header className={`${theme === 'dark' ? 'bg-gray-900/80' : 'bg-white'} backdrop-blur-md shadow-lg sticky top-0 z-50 border-b ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
         <div className="w-full px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">📚 Preparation Resources</h1>
-            <p className="text-sm text-gray-600">Manage your learning materials</p>
+            <h1 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>📚 Preparation Resources</h1>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Manage your learning materials</p>
           </div>
           <div className="flex gap-3">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`px-4 py-2 ${theme === 'dark' ? 'bg-gray-700/80 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'} ${theme === 'dark' ? 'text-white' : 'text-gray-900'} rounded-lg transition-all duration-200 hover:scale-105 flex items-center gap-2`}
+              title="Toggle theme"
+            >
+              {theme === 'dark' ? '☀️' : '🌙'}
+              <span className="hidden sm:inline">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+            </button>
             <button
               onClick={() => window.location.href = '/dashboard'}
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              className={`px-4 py-2 ${theme === 'dark' ? 'bg-gray-700/80 hover:bg-gray-600' : 'bg-gray-600 hover:bg-gray-700'} text-white rounded-lg transition-colors`}
             >
               Dashboard
             </button>
@@ -168,16 +188,16 @@ function Resources() {
         {/* Stats and Add Button */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div className="flex gap-4">
-            <div className="bg-white rounded-lg shadow p-4">
-              <p className="text-sm text-gray-600">Total Resources</p>
+            <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Total Resources</p>
               <p className="text-2xl font-bold text-purple-600">{resources.length}</p>
             </div>
-            <div className="bg-white rounded-lg shadow p-4">
-              <p className="text-sm text-gray-600">Studied</p>
+            <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Studied</p>
               <p className="text-2xl font-bold text-green-600">{resources.filter(r => r.studied).length}</p>
             </div>
-            <div className="bg-white rounded-lg shadow p-4">
-              <p className="text-sm text-gray-600">To Study</p>
+            <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>To Study</p>
               <p className="text-2xl font-bold text-orange-600">{resources.filter(r => !r.studied).length}</p>
             </div>
           </div>
@@ -198,8 +218,8 @@ function Resources() {
 
         {/* Add/Edit Resource Form */}
         {showForm && (
-          <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow-lg p-6 mb-6 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+            <h2 className={`text-2xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
               {editingResource ? 'Edit Resource' : 'Add New Resource'}
             </h2>
             <form onSubmit={handleSubmit}>
@@ -209,7 +229,7 @@ function Resources() {
                   placeholder="Resource Title *"
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
                   required
                 />
                 <input
@@ -217,41 +237,41 @@ function Resources() {
                   placeholder="URL *"
                   value={formData.url}
                   onChange={(e) => setFormData({...formData, url: e.target.value})}
-                  className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
                   required
                 />
                 <select
                   value={formData.type}
                   onChange={(e) => setFormData({...formData, type: e.target.value})}
-                  className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
                 >
-                  {types.map(t => <option key={t} value={t}>{t}</option>)}
+                  {types.map(t => <option key={t} value={t} className="bg-white text-gray-900">{t}</option>)}
                 </select>
                 <select
                   value={formData.topic}
                   onChange={(e) => setFormData({...formData, topic: e.target.value})}
-                  className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
                   required
                 >
-                  <option value="">Select Topic *</option>
-                  {topics.map(t => <option key={t} value={t}>{t}</option>)}
+                  <option value="" className="bg-white text-gray-900">Select Topic *</option>
+                  {topics.map(t => <option key={t} value={t} className="bg-white text-gray-900">{t}</option>)}
                 </select>
                 <select
                   value={formData.companyId}
                   onChange={(e) => setFormData({...formData, companyId: e.target.value})}
-                  className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
                 >
-                  <option value="">Link to Company (Optional)</option>
-                  {companies.map(c => <option key={c._id} value={c._id}>{c.companyName}</option>)}
+                  <option value="" className="bg-white text-gray-900">Link to Company (Optional)</option>
+                  {companies.map(c => <option key={c._id} value={c._id} className="bg-white text-gray-900">{c.companyName}</option>)}
                 </select>
                 <div className="flex items-center gap-2">
-                  <label className="text-sm font-semibold text-gray-700">Rating:</label>
+                  <label className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-700'}`}>Rating:</label>
                   <select
                     value={formData.rating}
                     onChange={(e) => setFormData({...formData, rating: parseInt(e.target.value)})}
-                    className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
                   >
-                    {[1, 2, 3, 4, 5].map(r => <option key={r} value={r}>{'⭐'.repeat(r)} ({r})</option>)}
+                    {[1, 2, 3, 4, 5].map(r => <option key={r} value={r} className="bg-white text-gray-900">{'⭐'.repeat(r)} ({r})</option>)}
                   </select>
                 </div>
               </div>
@@ -259,14 +279,14 @@ function Resources() {
                 placeholder="Description"
                 value={formData.description}
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className={`w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
                 rows="3"
               />
               <textarea
                 placeholder="Personal Notes (Optional)"
                 value={formData.notes}
                 onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className={`w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
                 rows="2"
               />
               <div className="flex justify-end gap-2">
@@ -276,7 +296,7 @@ function Resources() {
                     setShowForm(false);
                     setEditingResource(null);
                   }}
-                  className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                  className={`px-6 py-2 border rounded-lg transition-colors ${theme === 'dark' ? 'border-gray-600 hover:bg-gray-700 text-white' : 'border-gray-300 hover:bg-gray-100 text-gray-900'}`}
                 >
                   Cancel
                 </button>
@@ -292,39 +312,39 @@ function Resources() {
         )}
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow p-4 mb-6">
+        <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 mb-6 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <input
               type="text"
               placeholder="🔍 Search resources..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' : 'border-gray-300 text-gray-900 placeholder-gray-500'}`}
             />
             <select
               value={filter.topic}
               onChange={(e) => setFilter({...filter, topic: e.target.value})}
-              className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
             >
-              <option value="">All Topics</option>
-              {topics.map(t => <option key={t} value={t}>{t}</option>)}
+              <option value="" className="bg-white text-gray-900">All Topics</option>
+              {topics.map(t => <option key={t} value={t} className="bg-white text-gray-900">{t}</option>)}
             </select>
             <select
               value={filter.type}
               onChange={(e) => setFilter({...filter, type: e.target.value})}
-              className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
             >
-              <option value="">All Types</option>
-              {types.map(t => <option key={t} value={t}>{t}</option>)}
+              <option value="" className="bg-white text-gray-900">All Types</option>
+              {types.map(t => <option key={t} value={t} className="bg-white text-gray-900">{t}</option>)}
             </select>
             <select
               value={filter.studied}
               onChange={(e) => setFilter({...filter, studied: e.target.value})}
-              className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-300 text-gray-900'}`}
             >
-              <option value="">All Resources</option>
-              <option value="true">✅ Studied</option>
-              <option value="false">📖 To Study</option>
+              <option value="" className="bg-white text-gray-900">All Resources</option>
+              <option value="true" className="bg-white text-gray-900">✅ Studied</option>
+              <option value="false" className="bg-white text-gray-900">📖 To Study</option>
             </select>
           </div>
         </div>
@@ -332,7 +352,7 @@ function Resources() {
         {/* Resources List */}
         <div className="grid gap-4">
           {filteredResources.map(resource => (
-            <div key={resource._id} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+            <div key={resource._id} className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
               <div className="flex justify-between items-start gap-4">
                 <div className="flex items-start gap-3 flex-1">
                   <input
@@ -342,11 +362,11 @@ function Resources() {
                     className="w-6 h-6 mt-1 cursor-pointer accent-green-600"
                   />
                   <div className="flex-1">
-                    <h3 className={`text-xl font-bold mb-2 ${resource.studied ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                    <h3 className={`text-xl font-bold mb-2 ${resource.studied ? 'line-through text-gray-400' : theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                       {resource.title}
                     </h3>
                     {resource.description && (
-                      <p className="text-gray-600 mb-3">{resource.description}</p>
+                      <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mb-3`}>{resource.description}</p>
                     )}
                     <div className="flex flex-wrap gap-2 mb-3">
                       <span className="text-sm bg-purple-100 text-purple-800 px-3 py-1 rounded-full font-semibold">
@@ -367,8 +387,8 @@ function Resources() {
                       )}
                     </div>
                     {resource.notes && (
-                      <div className="bg-gray-50 rounded-lg p-3 mb-3">
-                        <p className="text-sm text-gray-700"><strong>Notes:</strong> {resource.notes}</p>
+                      <div className={`${theme === 'dark' ? 'bg-gray-900/50' : 'bg-gray-50'} rounded-lg p-3 mb-3 border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+                        <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}><strong>Notes:</strong> {resource.notes}</p>
                       </div>
                     )}
                     <a 
@@ -410,10 +430,10 @@ function Resources() {
         </div>
 
         {filteredResources.length === 0 && (
-          <div className="bg-white rounded-lg shadow p-12 text-center">
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-12 text-center border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
             <div className="text-6xl mb-4">📚</div>
-            <p className="text-xl text-gray-600 mb-2">No resources found</p>
-            <p className="text-gray-500">
+            <p className={`text-xl ${theme === 'dark' ? 'text-white' : 'text-gray-600'} mb-2`}>No resources found</p>
+            <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-500'}`}>
               {searchTerm || filter.topic || filter.type || filter.studied
                 ? 'Try adjusting your filters'
                 : 'Add your first learning resource to get started!'}

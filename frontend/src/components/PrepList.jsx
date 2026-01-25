@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import api from '../utils/api';
+import Aurora from './Aurora';
 
 function PrepList() {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [prepItems, setPrepItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -20,13 +23,14 @@ function PrepList() {
     completed: false,
   });
 
-  // Set body background color
+  // Set body background color based on theme
   React.useEffect(() => {
-    document.body.style.backgroundColor = '#FFF5F7';
-    return () => {
-      document.body.style.backgroundColor = '#0f172a';
-    };
-  }, []);
+    if (theme === 'dark') {
+      document.body.style.backgroundColor = '#0b1220';
+    } else {
+      document.body.style.backgroundColor = '#f9fafb';
+    }
+  }, [theme]);
 
   useEffect(() => {
     fetchPrepItems();
@@ -177,18 +181,34 @@ function PrepList() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen relative ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      {/* Aurora Animated Background - Only in dark mode */}
+      {theme === 'dark' && (
+        <div className="absolute inset-0 w-full h-full -z-10">
+          <Aurora />
+        </div>
+      )}
+      
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className={`${theme === 'dark' ? 'bg-gray-900/80' : 'bg-white'} backdrop-blur-md shadow-lg sticky top-0 z-50 border-b ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Preparation Checklist</h1>
-            <p className="text-sm text-gray-600">Track your interview preparation progress</p>
+            <h1 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Preparation Checklist</h1>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Track your interview preparation progress</p>
           </div>
           <div className="flex gap-3">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`px-4 py-2 ${theme === 'dark' ? 'bg-gray-700/80 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'} ${theme === 'dark' ? 'text-white' : 'text-gray-900'} rounded-lg transition-all duration-200 hover:scale-105 flex items-center gap-2`}
+              title="Toggle theme"
+            >
+              {theme === 'dark' ? '☀️' : '🌙'}
+              <span className="hidden sm:inline">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+            </button>
             <button
               onClick={() => window.location.href = '/dashboard'}
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              className={`px-4 py-2 ${theme === 'dark' ? 'bg-gray-700/80 hover:bg-gray-600' : 'bg-gray-600 hover:bg-gray-700'} text-white rounded-lg transition-colors`}
             >
               Dashboard
             </button>
@@ -206,24 +226,24 @@ function PrepList() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow p-4">
-            <p className="text-sm text-gray-600">Total Items</p>
-            <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Total Items</p>
+            <p className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{stats.total}</p>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <p className="text-sm text-gray-600">Completed</p>
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Completed</p>
             <p className="text-2xl font-bold text-green-600">{stats.completed}</p>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <p className="text-sm text-gray-600">High Priority</p>
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>High Priority</p>
             <p className="text-2xl font-bold text-red-600">{stats.high}</p>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <p className="text-sm text-gray-600">Medium Priority</p>
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Medium Priority</p>
             <p className="text-2xl font-bold text-yellow-600">{stats.medium}</p>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <p className="text-sm text-gray-600">Low Priority</p>
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow p-4 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Low Priority</p>
             <p className="text-2xl font-bold text-green-600">{stats.low}</p>
           </div>
         </div>
@@ -234,22 +254,22 @@ function PrepList() {
             <select
               value={filterPriority}
               onChange={(e) => setFilterPriority(e.target.value)}
-              className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500"
+              className={`px-4 py-2 border-2 rounded-lg focus:outline-none focus:border-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-200 text-gray-900'}`}
             >
-              <option value="All">All Priorities</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
+              <option value="All" className="bg-white text-gray-900">All Priorities</option>
+              <option value="High" className="bg-white text-gray-900">High</option>
+              <option value="Medium" className="bg-white text-gray-900">Medium</option>
+              <option value="Low" className="bg-white text-gray-900">Low</option>
             </select>
 
             <select
               value={filterCompleted}
               onChange={(e) => setFilterCompleted(e.target.value)}
-              className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500"
+              className={`px-4 py-2 border-2 rounded-lg focus:outline-none focus:border-purple-500 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'border-gray-200 text-gray-900'}`}
             >
-              <option value="All">All Items</option>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
+              <option value="All" className="bg-white text-gray-900">All Items</option>
+              <option value="Pending" className="bg-white text-gray-900">Pending</option>
+              <option value="Completed" className="bg-white text-gray-900">Completed</option>
             </select>
           </div>
 
@@ -266,7 +286,7 @@ function PrepList() {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6">
+          <div className={`${theme === 'dark' ? 'bg-red-900/20 text-red-400 border border-red-500/30' : 'bg-red-50 text-red-600'} px-4 py-3 rounded-lg mb-6`}>
             {error}
           </div>
         )}
@@ -278,12 +298,12 @@ function PrepList() {
           </div>
         ) : sortedItems.length === 0 ? (
           /* Empty State */
-          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-            <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow-md p-12 text-center border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+            <svg className={`mx-auto h-12 w-12 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'} mb-4`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No prep items found</h3>
-            <p className="text-sm text-gray-500 mb-4">
+            <h3 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-2`}>No prep items found</h3>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-500'} mb-4`}>
               {filterPriority !== 'All' || filterCompleted !== 'All'
                 ? 'Try adjusting your filters.'
                 : 'Add your first preparation topic to get started.'}
@@ -303,9 +323,9 @@ function PrepList() {
             {sortedItems.map((item) => (
               <div
                 key={item._id}
-                className={`bg-white rounded-lg shadow-sm hover:shadow-md transition-all p-4 border-l-4 ${
+                className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow-sm hover:shadow-md transition-all p-4 border-l-4 ${
                   item.completed ? 'border-green-500 opacity-75' : getPriorityColor(item.priority).replace('bg-', 'border-').split(' ')[0]
-                }`}
+                } border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}
               >
                 <div className="flex items-start gap-4">
                   {/* Checkbox */}
@@ -321,7 +341,7 @@ function PrepList() {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                      <h3 className={`text-lg font-semibold ${item.completed ? 'line-through text-gray-500' : 'text-gray-900'}`}>
+                      <h3 className={`text-lg font-semibold ${item.completed ? 'line-through text-gray-500' : theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                         {item.topic}
                       </h3>
                       <span className={`px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${getPriorityColor(item.priority)}`}>
@@ -329,7 +349,7 @@ function PrepList() {
                         {item.priority}
                       </span>
                     </div>
-                    <p className={`text-sm ${item.completed ? 'line-through text-gray-400' : 'text-gray-600'}`}>
+                    <p className={`text-sm ${item.completed ? 'line-through text-gray-400' : theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                       {item.description}
                     </p>
                   </div>
@@ -363,15 +383,15 @@ function PrepList() {
 
         {/* Form Modal */}
         {showForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50">
+            <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-xl max-w-md w-full p-6`}>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                   {editingItem ? 'Edit Prep Item' : 'Add Prep Item'}
                 </h2>
                 <button
                   onClick={() => setShowForm(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className={`${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`}
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -381,7 +401,7 @@ function PrepList() {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'} mb-2`}>
                     Topic *
                   </label>
                   <input
@@ -391,12 +411,12 @@ function PrepList() {
                     onChange={handleChange}
                     required
                     placeholder="e.g., Study Binary Trees"
-                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500"
+                    className="w-full px-4 py-2 border-2 bg-white border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:border-purple-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'} mb-2`}>
                     Description *
                   </label>
                   <textarea
@@ -406,23 +426,23 @@ function PrepList() {
                     required
                     rows="3"
                     placeholder="Describe what you need to study or practice..."
-                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 resize-none"
+                    className="w-full px-4 py-2 border-2 bg-white border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:border-purple-500 resize-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'} mb-2`}>
                     Priority *
                   </label>
                   <select
                     name="priority"
                     value={formData.priority}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500"
+                    className="w-full px-4 py-2 border-2 bg-white border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:border-purple-500"
                   >
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    <option value="High" className="bg-white text-gray-900">High</option>
+                    <option value="Medium" className="bg-white text-gray-900">Medium</option>
+                    <option value="Low" className="bg-white text-gray-900">Low</option>
                   </select>
                 </div>
 
@@ -436,7 +456,7 @@ function PrepList() {
                       onChange={handleChange}
                       className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
                     />
-                    <label htmlFor="completed" className="ml-2 text-sm text-gray-700">
+                    <label htmlFor="completed" className={`ml-2 text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
                       Mark as completed
                     </label>
                   </div>
@@ -446,7 +466,7 @@ function PrepList() {
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
-                    className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                    className={`flex-1 px-4 py-2 border-2 rounded-lg ${theme === 'dark' ? 'border-gray-600 text-white hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
                   >
                     Cancel
                   </button>

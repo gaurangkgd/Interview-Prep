@@ -80,7 +80,7 @@ function QuestionForm({ question, onSubmit, onClose }) {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50 overflow-y-auto">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 my-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -119,7 +119,7 @@ function QuestionForm({ question, onSubmit, onClose }) {
               required
               rows="3"
               placeholder="e.g., What is the difference between let and var in JavaScript?"
-              className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors resize-none"
+              className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none text-gray-900 focus:border-purple-500 transition-colors resize-none"
             />
           </div>
 
@@ -136,7 +136,7 @@ function QuestionForm({ question, onSubmit, onClose }) {
               required
               rows="5"
               placeholder="Enter your detailed answer here..."
-              className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors resize-none"
+              className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none text-gray-900 focus:border-purple-500 transition-colors resize-none"
             />
           </div>
 
@@ -154,7 +154,7 @@ function QuestionForm({ question, onSubmit, onClose }) {
               onChange={handleChange}
               required
               placeholder="e.g., Data Structures, Algorithms, React"
-              className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none text-gray-900 focus:border-purple-500 transition-colors"
             />
             <datalist id="topics">
               {topicSuggestions.map((topic) => (

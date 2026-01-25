@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import api from '../utils/api';
 import QuestionForm from './QuestionForm';
+import Aurora from './Aurora';
 
 function QuestionList() {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [questions, setQuestions] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,13 +24,14 @@ function QuestionList() {
   const [topics, setTopics] = useState([]);
   const [companies, setCompanies] = useState([]);
 
-  // Set body background color
+  // Set body background color based on theme
   React.useEffect(() => {
-    document.body.style.backgroundColor = '#FFF5F7';
-    return () => {
-      document.body.style.backgroundColor = '#0f172a';
-    };
-  }, []);
+    if (theme === 'dark') {
+      document.body.style.backgroundColor = '#0b1220';
+    } else {
+      document.body.style.backgroundColor = '#f9fafb';
+    }
+  }, [theme]);
 
   useEffect(() => {
     fetchQuestions();
@@ -142,18 +146,34 @@ function QuestionList() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen relative ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      {/* Aurora Animated Background - Only in dark mode */}
+      {theme === 'dark' && (
+        <div className="absolute inset-0 w-full h-full -z-10">
+          <Aurora />
+        </div>
+      )}
+      
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className={`${theme === 'dark' ? 'bg-gray-900/80' : 'bg-white'} backdrop-blur-md shadow-lg sticky top-0 z-50 border-b ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Interview Questions</h1>
-            <p className="text-sm text-gray-600">Welcome back, {user?.username}!</p>
+            <h1 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Interview Questions</h1>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Welcome back, {user?.username}!</p>
           </div>
           <div className="flex gap-3">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`px-4 py-2 ${theme === 'dark' ? 'bg-gray-700/80 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'} ${theme === 'dark' ? 'text-white' : 'text-gray-900'} rounded-lg transition-all duration-200 hover:scale-105 flex items-center gap-2`}
+              title="Toggle theme"
+            >
+              {theme === 'dark' ? '☀️' : '🌙'}
+              <span className="hidden sm:inline">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+            </button>
             <button
               onClick={() => window.location.href = '/dashboard'}
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              className={`px-4 py-2 ${theme === 'dark' ? 'bg-gray-700/80 hover:bg-gray-600' : 'bg-gray-600 hover:bg-gray-700'} text-white rounded-lg transition-colors`}
             >
               Dashboard
             </button>
@@ -178,9 +198,9 @@ function QuestionList() {
                 placeholder="Search questions, answers, or topics..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 pl-12 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+                className={`w-full px-4 py-3 pl-12 border-2 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' : 'bg-white border-gray-200 text-gray-900 placeholder-gray-400'} rounded-lg focus:outline-none focus:border-purple-500 transition-colors`}
               />
-              <svg className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className={`w-5 h-5 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-400'} absolute left-4 top-1/2 transform -translate-y-1/2`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -197,41 +217,41 @@ function QuestionList() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+        <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow-md p-4 mb-6 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Topic Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Topic</label>
+              <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'} mb-2`}>Filter by Topic</label>
               <select
                 value={selectedTopic}
                 onChange={(e) => setSelectedTopic(e.target.value)}
-                className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+                className={`w-full px-4 py-2 border-2 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'bg-white border-gray-200 text-gray-900'} rounded-lg focus:outline-none focus:border-purple-500 transition-colors`}
               >
-                <option value="All">All Topics</option>
+                <option value="All" className="bg-white text-gray-900">All Topics</option>
                 {topics.map((topic) => (
-                  <option key={topic} value={topic}>{topic}</option>
+                  <option key={topic} value={topic} className="bg-white text-gray-900">{topic}</option>
                 ))}
               </select>
             </div>
 
             {/* Company Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Company</label>
+              <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'} mb-2`}>Filter by Company</label>
               <select
                 value={selectedCompany}
                 onChange={(e) => setSelectedCompany(e.target.value)}
-                className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+                className={`w-full px-4 py-2 border-2 ${theme === 'dark' ? 'bg-white border-gray-300 text-gray-900' : 'bg-white border-gray-200 text-gray-900'} rounded-lg focus:outline-none focus:border-purple-500 transition-colors`}
               >
-                <option value="All">All Companies</option>
+                <option value="All" className="bg-white text-gray-900">All Companies</option>
                 {companies.map((company) => (
-                  <option key={company} value={company}>{company}</option>
+                  <option key={company} value={company} className="bg-white text-gray-900">{company}</option>
                 ))}
               </select>
             </div>
           </div>
 
           {/* Active Filters Summary */}
-          <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
+          <div className={`mt-3 flex items-center gap-2 text-sm ${theme === 'dark' ? 'text-white' : 'text-gray-600'}`}>
             <span>Showing {filteredQuestions.length} of {questions.length} questions</span>
             {(searchTerm || selectedTopic !== 'All' || selectedCompany !== 'All') && (
               <button
@@ -250,7 +270,7 @@ function QuestionList() {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6">
+          <div className={`${theme === 'dark' ? 'bg-red-900/20 text-red-400 border border-red-500/30' : 'bg-red-50 text-red-600'} px-4 py-3 rounded-lg mb-6`}>
             {error}
           </div>
         )}
@@ -262,12 +282,12 @@ function QuestionList() {
           </div>
         ) : filteredQuestions.length === 0 ? (
           /* Empty State */
-          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-            <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow-md p-12 text-center border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+            <svg className={`mx-auto h-12 w-12 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'} mb-4`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No questions found</h3>
-            <p className="text-sm text-gray-500 mb-4">
+            <h3 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-2`}>No questions found</h3>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-500'} mb-4`}>
               {searchTerm || selectedTopic !== 'All' || selectedCompany !== 'All'
                 ? 'Try adjusting your filters or search term.'
                 : 'Add your first interview question to get started.'}
@@ -285,7 +305,7 @@ function QuestionList() {
           /* Questions List */
           <div className="space-y-4">
             {filteredQuestions.map((question) => (
-              <div key={question._id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+              <div key={question._id} className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white'} backdrop-blur-xl rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
                 {/* Header */}
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex-1">
@@ -323,14 +343,14 @@ function QuestionList() {
                 </div>
 
                 {/* Question */}
-                <h3 className="text-lg font-bold text-gray-900 mb-3">
+                <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-3`}>
                   {question.question}
                 </h3>
 
                 {/* Answer */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-sm font-medium text-gray-700 mb-2">Answer:</p>
-                  <p className="text-gray-600 whitespace-pre-wrap">{question.answer}</p>
+                <div className={`${theme === 'dark' ? 'bg-gray-900/50' : 'bg-gray-50'} rounded-lg p-4 border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+                  <p className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'} mb-2`}>Answer:</p>
+                  <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} whitespace-pre-wrap`}>{question.answer}</p>
                 </div>
               </div>
             ))}
