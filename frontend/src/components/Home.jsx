@@ -59,10 +59,12 @@ function Home() {
       <div className="relative z-10 w-full">
         {/* Navigation */}
         <nav className="bg-gray-900/80 backdrop-blur-sm shadow-sm w-full">
-          <div className="w-full px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <span className="text-4xl">🎯</span>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">Interview Prep Tracker</h1>
+          <div className="w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">📋</span>
+            <h1 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-500 tracking-wider" style={{ fontFamily: "'Poppins', 'Inter', sans-serif" }}>
+              Interview Prep Tracker
+            </h1>
           </div>
           <div className="flex gap-3">
             <button
@@ -99,16 +101,16 @@ function Home() {
             direction="top"
             className="text-xl md:text-2xl text-gray-200 mb-6 max-w-5xl mx-auto justify-center font-light"
           />
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4 justify-center mt-6">
             <button
               onClick={() => navigate('/register')}
-              className="px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:scale-105 shadow-lg"
+              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold text-base hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:scale-105 shadow-lg"
             >
               Start Preparing Now
             </button>
             <button
               onClick={() => navigate('/login')}
-              className="px-10 py-5 bg-white text-purple-600 border-2 border-purple-600 rounded-lg font-semibold text-lg hover:bg-purple-50 transition-all"
+              className="px-6 py-3 bg-white text-purple-600 border-2 border-purple-600 rounded-lg font-semibold text-base hover:bg-purple-50 transition-all"
             >
               Sign In
             </button>
