@@ -36,8 +36,11 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-indigo-700 p-4">
-      <div className="bg-white rounded-lg shadow-2xl p-10 w-full max-w-lg">
+    <div className="min-h-screen flex items-center justify-center p-4 relative" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+      {/* Dark glassmorphic overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-black/40 backdrop-blur-xl"></div>
+      
+      <div className="bg-white/95 backdrop-blur-xl rounded-lg shadow-2xl p-10 w-full max-w-lg relative z-10">
         <h2 className="text-4xl font-bold text-center text-gray-800 mb-3">
           Create Account
         </h2>
