@@ -17,7 +17,12 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', process.env.FRONTEND_URL].filter(Boolean),
+  origin: [
+    'http://localhost:5173', 
+    'http://localhost:5174', 
+    process.env.FRONTEND_URL,
+    /^https:\/\/.*\.vercel\.app$/  // Allow all Vercel preview deployments
+  ].filter(Boolean),
   credentials: true
 }));
 app.use(express.json());
